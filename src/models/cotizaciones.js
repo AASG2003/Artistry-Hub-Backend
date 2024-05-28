@@ -1,6 +1,7 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('cotizaciones', {
+import sequelize from "../config/db.js";
+import { DataTypes } from "sequelize";
+
+export const quotes = sequelize.define('cotizaciones', {
     id_cotizacion: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -17,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     fecha: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     },
     precio: {
       type: DataTypes.DECIMAL(10,5),
@@ -45,4 +46,3 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};

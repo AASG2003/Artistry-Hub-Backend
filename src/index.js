@@ -3,6 +3,6 @@ import app from './app.js'
 const port = 3000;
 
 app.listen(port, ()=>{
-  console.log("Ejecutando servidor")
+  console.log("Ejecutando servidor en el puerto:" + port)
 })
 

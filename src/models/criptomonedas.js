@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('criptomonedas', {
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.js'
+export const criptoCoins = sequelize.define('criptomonedas', {
     id_criptomoneda: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -29,4 +29,3 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};

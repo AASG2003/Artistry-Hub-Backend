@@ -20,11 +20,21 @@ const getUserById = async(req, res) =>{
         });
         res.status(200).json(users);
     } catch(error){
-        res.status(500).json({message: 'Error general', error});
+      res.status(500).json({message: 'Error general', error}); 
     }
 }
 
-export { getAllUsers, getUserById};
+const createUser = async(req, res) => {
+  try{
+    const user = await User.create(req.body)
+    user.save()
+    res.status(200).json({user})
+  }catch(error){
+    res.status(500).json({message: 'Error general: ' , error})
+  }
+}
+
+export { getAllUsers, getUserById, createUser};
 
 
 // Puedes agregar más controladores como createUser, updateUser, deleteUser, etc.

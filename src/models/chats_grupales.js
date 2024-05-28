@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('chats_grupales', {
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.js';
+export const groupChat = sequelize.define('chats_grupales', {
     id_chat: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     fecha_creacion: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,
@@ -30,4 +30,3 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
