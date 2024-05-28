@@ -2,9 +2,9 @@ import {criptoCoins} from '../models/criptomonedas.js'
 
 const getAllCriptoCoin = async(req, res) =>{
     try{
-        const coins = criptoCoins.findAll()
+        const coins = await criptoCoins.findAll()
 
-        res.status(200).json({message: coins})
+        res.status(200).json({"message": coins})
     }catch(error){
         res.status(500).json({"error": "error:" ,error})
     }
