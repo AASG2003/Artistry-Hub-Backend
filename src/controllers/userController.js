@@ -1,5 +1,7 @@
 import { Op } from "sequelize";
 import { User } from "../models/usuarios.js";
+import jwt from "jsonwebtoken";
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
@@ -50,7 +52,10 @@ const loginUser = async(req, res) =>{
     })
     //console.log(login.contrasena)
     if(login !== null){
-      res.status(200).json({message:"usuario encontrado", "verification": "true"})
+      const user = {id_usuario: login.id_usuario, nombre: login.nombre_usuario}
+      console.log(user)
+      const token = jwt.sign(user, 'secretKey', {expiresIn: '60s'})
+      res.status(200).json({message:"usuario encontrado", "verification": "true", token})
     }else{
       res.status(200).json({message:"usuario no encontrado", "verification": "false"})
     }
@@ -59,10 +64,4 @@ const loginUser = async(req, res) =>{
     res.status(500).json({"error": "error:", error})
   }
 }
-
 export { getAllUsers, getUserById, createUser, loginUser};
-
-
-// Puedes agregar más controladores como createUser, updateUser, deleteUser, etc.
-
-
