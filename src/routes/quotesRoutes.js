@@ -3,10 +3,9 @@ import { getAllquotes, getquoteById, createquote } from '../controllers/quotesCo
 
 const router = express.Router()
 
-
-router.get('/getquotes',getAllquotes)
-router.get('/getquotes/:id', getquoteById)
 //post
+router.get('/getquotes',getAllquotes)
+router.post('/getquotes/findId', getquoteById)
 router.post('/createquote', createquote)
 
 

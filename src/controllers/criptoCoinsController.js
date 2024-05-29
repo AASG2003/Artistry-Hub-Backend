@@ -1,5 +1,5 @@
 import {criptoCoins} from '../models/criptomonedas.js'
-
+import { Op } from 'sequelize'
 const getAllCriptoCoin = async(req, res) =>{
     try{
         const coins = await criptoCoins.findAll()
@@ -13,14 +13,20 @@ const getAllCriptoCoin = async(req, res) =>{
 
 const getCriptoCoinBySigla = async(req,res) =>{
     try{
-        const coin = await criptoCoins.findAll({
+        const {siglas} = req.body
+        console.log(siglas)
+        const coin = await criptoCoins.findOne({
             where:{
                 siglas:{
-                    [Op.eq]: req.params.siglas
+                    [Op.eq]: siglas
                 }
             }
         })
-        res.status(200).json({message:coin})
+        if(coin !== null){
+            res.status(200).json({message:"criptomoneda encontrado", "verification": "true"})
+        }else{
+            res.status(200).json({message:"criptomoneda no encontrado", "verification": "false"})
+        }
     }catch(error){
         res.status(500).json({"error": "error", coin})
     }
@@ -28,14 +34,19 @@ const getCriptoCoinBySigla = async(req,res) =>{
 
 const getCriptoCoinByName = async(req,res) =>{
     try{
-        const coin = await criptoCoins.findAll({
+        const {nombre} = req.body
+        const coin = await criptoCoins.findOne({
             where:{
                 nombre:{
-                    [Op.eq]: req.params.nombre
+                    [Op.eq]: nombre
                 }
             }
         })
-        res.status(200).json({message:coin})
+        if(coin !== null){
+            res.status(200).json({message:"criptomoneda encontrado", "verification": "true"})
+        }else{
+            res.status(200).json({message:"criptomoneda no encontrado", "verification": "false"})
+        }
     }catch(error){
         res.status(500).json({"error": "error", coin})
     }

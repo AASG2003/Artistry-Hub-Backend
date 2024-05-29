@@ -4,8 +4,8 @@ const router = express.Router()
 
 //Gets
 router.get('/getCoins', getAllCriptoCoin)
-router.get('/getCoins/:nombre', getCriptoCoinByName)
-router.get('/getCoins/:siglas', getCriptoCoinBySigla)
+router.post('/getCoins/findName', getCriptoCoinByName)
+router.post('/getCoins/findSigla', getCriptoCoinBySigla)
 router.post('/createCoins', createCriptoCoin)
 //post
 

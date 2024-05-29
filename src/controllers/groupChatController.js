@@ -1,5 +1,5 @@
 import {groupChat} from "../models/chats_grupales.js"
-
+import { Op } from "sequelize"
 
 const getAllGroupChat = async(req, res) =>{
     try{
@@ -10,19 +10,23 @@ const getAllGroupChat = async(req, res) =>{
     }
 }
 
-const getGroupChatById = async(req, res) =>{
+const getGroupChatByName = async(req, res) =>{
     try{
-        const group = await groupChat.findAll({
+        const {nombre} = req.body
+        const group = await groupChat.findOne({
             where:{
                 nombre_chat:{
-                    [Op.eq] : req.params.nombre
+                    [Op.eq] : nombre
                 }   
             }
         })
-        console.log(group)
-        res.status(200).json({message: group})
+        if(group !== null){
+            res.status(200).json({message:"grupo encontrado", "verification": "true"})
+        }else{
+            res.status(200).json({message:"grupo no encontrado", "verification": "false"})
+        }
     }catch(error){
-        res.status(500).json({message:'error:', error})
+        res.status(500).json({message:error})
     }
 }
 
@@ -32,8 +36,8 @@ const createGroupChat = async (req, res) =>{
         createGroup.save()
         res.status(200).json({message: createGroup})
     }catch(error){
-        res.status(500).json({message: 'error:', error})
+        res.status(500).json({message: error})
     }
 }
 
-export {getAllGroupChat, getGroupChatById, createGroupChat}
+export {getAllGroupChat, getGroupChatByName, createGroupChat}
