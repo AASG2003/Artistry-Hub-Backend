@@ -54,7 +54,7 @@ const loginUser = async(req, res) =>{
     if(login !== null){
       const user = {id_usuario: login.id_usuario, nombre: login.nombre_usuario}
       console.log(user)
-      const token = jwt.sign(user, 'secretKey', {expiresIn: '60s'})
+      const token = jwt.sign(user, 'secretKey', {expiresIn: '5m'})
       res.status(200).json({message:"usuario encontrado", "verification": "true", token})
     }else{
       res.status(200).json({message:"usuario no encontrado", "verification": "false"})

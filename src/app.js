@@ -26,27 +26,4 @@ app.use('/api', routerUser);
 app.use('/api',routerGroupChat)
 app.use('/api', routerCriptoCoins)
 app.use('/api', routerQuote)
-
-app.get('/obtener_precios_cripto', async (req, res) => {
-    const { resul } = req.query;
-    const tiempo = new Date().toISOString().slice(0, 10);
-    const nombreColeccion = "cripto_consulta";
-    
-    try {
-      const db = req.db;
-      const coleccion = db.collection(nombreColeccion);
-  
-      // Consultar los datos en la colección
-      const resultado = await coleccion.find({activo:resul}).toArray();
-      if (resultado) {
-        res.json(resultado);
-      } else {
-        res.status(404).json({ error: "El activo especificado no fue encontrado." });
-      }
-    } catch (error) {
-      console.error('Error al consultar la base de datos:', error);
-      res.status(500).json({ error: 'Error en el servidor' });
-    }
-  });
-
 export default app;
