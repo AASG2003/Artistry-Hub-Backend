@@ -72,20 +72,20 @@ const getCriptoCoins = async(req, res) =>{
     const nombreColeccion = "cripto_consulta";
     
     try {
-      const db = req.db;
-      const coleccion = db.collection(nombreColeccion);
-  
+        const db = req.db;
+        const coleccion = db.collection(nombreColeccion);
+
       // Consultar los datos en la colección
-      const resultado = await coleccion.find({activo:resul}).toArray();
-      if (resultado) {
-        res.json(resultado);
-      } else {
-        res.status(404).json({ error: "El activo especificado no fue encontrado." });
-      }
-    } catch (error) {
-      console.error('Error al consultar la base de datos:', error);
-      res.status(500).json({ error: 'Error en el servidor' });
-    }
+        const resultado = await coleccion.find({activo:resul}).toArray();
+        if (resultado) {
+            res.json(resultado);
+        } else {
+            res.status(404).json({ error: "El activo especificado no fue encontrado." });
+        }
+        } catch (error) {
+            console.error('Error al consultar la base de datos:', error);
+            res.status(500).json({ error: 'Error en el servidor' });
+        }
 }
 //export all functions
 export {getAllCriptoCoin, getCriptoCoinBySigla, getCriptoCoinByName, createCriptoCoin, getCriptoCoins}
