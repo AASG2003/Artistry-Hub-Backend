@@ -5,6 +5,8 @@ import routerGroupChat from './routes/groupChatRoutes.js'
 import routerCriptoCoins from './routes/criptoCoinRoutes.js'
 import routerQuote from './routes/quotesRoutes.js'
 import { MongoClient } from "mongodb";
+import cors from "cors"
+
 const app = express();
 
 app.use(async (req, res, next) => {
@@ -19,6 +21,7 @@ app.use(async (req, res, next) => {
     }
 });
 
+app.use(cors)
 
 app.use(morgan('dev'))
 app.use(express.json());

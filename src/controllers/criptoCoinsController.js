@@ -68,7 +68,6 @@ const createCriptoCoin = async(req, res) =>{
 //controlador para consultas mongoDB
 const getCriptoCoins = async(req, res) =>{
     const { resul } = req.query;
-    const tiempo = new Date().toISOString().slice(0, 10);
     const nombreColeccion = "cripto_consulta";
     
     try {

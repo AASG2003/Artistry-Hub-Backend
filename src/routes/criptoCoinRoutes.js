@@ -10,6 +10,6 @@ router.post('/getCoins/findSigla',verifyToken,getCriptoCoinBySigla)
 router.post('/createCoins',verifyToken, createCriptoCoin)
 
 //rutas de mongoDb para obtener el precio de una criptomoneda
-router.get('/getCoinsPrice', verifyToken, getCriptoCoins)
+router.get('/getCoinsPrice', getCriptoCoins)
 
 export default router

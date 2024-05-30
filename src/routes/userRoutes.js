@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/users', verifyToken,getAllUsers);
 router.post('/users/findBy',verifyToken, getUserById);
 router.post('/createuser',verifyToken,createUser);
-router.post('/createuser/login',loginUser);
+router.post('/users/login',loginUser);
 
 // Puedes agregar más rutas como post, put, delete, etc.
 
