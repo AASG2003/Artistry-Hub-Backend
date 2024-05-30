@@ -21,7 +21,7 @@ app.use(async (req, res, next) => {
     }
 });
 
-app.use(cors)
+app.use(cors())
 
 app.use(morgan('dev'))
 app.use(express.json());
