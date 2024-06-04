@@ -6,7 +6,11 @@ const getAllGroupChat = async(req, res) =>{
         const groups = await groupChat.findAll()
         res.status(200).json({message:groups})
     }catch(error){
-        res.status(500).json({message:"error:",error})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({message:"error:",error})
+        }
     }
 }
 
@@ -26,7 +30,11 @@ const getGroupChatByName = async(req, res) =>{
             res.status(200).json({message:"grupo no encontrado", "verification": "false"})
         }
     }catch(error){
-        res.status(500).json({message:error})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({message:error})
+        }
     }
 }
 
@@ -36,8 +44,27 @@ const createGroupChat = async (req, res) =>{
         createGroup.save()
         res.status(200).json({message: createGroup})
     }catch(error){
-        res.status(500).json({message: error})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({message: error})
+        }
     }
 }
 
-export {getAllGroupChat, getGroupChatByName, createGroupChat}
+const paginateGroupChat = async(req, res) =>{
+    try{
+        const {size, pags} = req.body
+        const pagGroup = await groupChat.findAll({
+            limit: size,
+            offset: size * page
+        })
+    }catch(error){
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({message: error})
+        }
+    }
+}
+export {getAllGroupChat, getGroupChatByName, createGroupChat, paginateGroupChat}

@@ -9,7 +9,11 @@ const getAllCriptoCoin = async(req, res) =>{
 
         res.status(200).json({"message": coins})
     }catch(error){
-        res.status(500).json({"error": "error:" ,error})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({"error": "error:" ,error})
+        }
     }
 }
 
@@ -31,7 +35,11 @@ const getCriptoCoinBySigla = async(req,res) =>{
             res.status(200).json({message:"criptomoneda no encontrado", "verification": "false"})
         }
     }catch(error){
-        res.status(500).json({"error": "error", coin})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({"error": "Error", coin})
+        }
     }
 }
 
@@ -51,7 +59,11 @@ const getCriptoCoinByName = async(req,res) =>{
             res.status(200).json({message:"criptomoneda no encontrado", "verification": "false"})
         }
     }catch(error){
-        res.status(500).json({"error": "error", coin})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({"error": "error", coin})
+        }
     }
 }
 
@@ -61,7 +73,11 @@ const createCriptoCoin = async(req, res) =>{
         coin.save()
         res.status(200).json({message:coin})
     }catch(error){
-        res.status(500).json({"error": "error:", error})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({"error": "Error:", error})
+        }
     }
 }
 
@@ -82,8 +98,12 @@ const getCriptoCoins = async(req, res) =>{
             res.status(404).json({ error: "El activo especificado no fue encontrado." });
         }
         } catch (error) {
-            console.error('Error al consultar la base de datos:', error);
-            res.status(500).json({ error: 'Error en el servidor' });
+            if(error == ValidationError){
+                res.status(500).json({message:"error en la base de datos", error})
+            }else{
+                console.error('Error al consultar la base de datos:', error);
+                res.status(500).json({ error: 'Error en el servidor' });
+            }
         }
 }
 //export all functions

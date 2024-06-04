@@ -6,7 +6,7 @@ const bearerHeader = req.headers['authorization']
         const bearertoken = bearerHeader.split(" ")[1];
         jwt.verify(bearertoken, 'secretKey', (err, authData) =>{
         if(err){
-            res.sendStatus(403)
+            res.status(403).json({message:"Token no valido", token: bearerHeader})
         }else{
             req.user = authData
             next()

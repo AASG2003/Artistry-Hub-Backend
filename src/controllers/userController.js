@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, ValidationError } from "sequelize";
 import { User } from "../models/usuarios.js";
 import jwt from "jsonwebtoken";
 
@@ -7,7 +7,11 @@ const getAllUsers = async (req, res) => {
     const users = await User.findAll();
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching users', error });
+    if(error == ValidationError){
+      res.status(500).json({message:"error en la base de datos", error})
+    }else{
+      res.status(500).json({ message: 'Error fetching users', error });
+    }
   }
 };
 
@@ -28,7 +32,11 @@ const getUserById = async(req, res) =>{
       }
       res.status(200).json(users);
     } catch(error){
-      res.status(500).json({message: 'Error general', error}); 
+      if(error == ValidationError){
+        res.status(500).json({message:"error en la base de datos", error})
+      }else{
+        res.status(500).json({message: 'Error general', error}); 
+      }
     }
 }
 
@@ -38,7 +46,11 @@ const createUser = async(req, res) => {
     user.save()
     res.status(200).json({user})
   }catch(error){
-    res.status(500).json({message: 'Error general: ' , error})
+    if(error == ValidationError){
+      res.status(500).json({message:"error en la base de datos", error})
+    }else{
+      res.status(500).json({message: 'Error general: ' , error})
+    }
   }
 }
 
@@ -50,18 +62,40 @@ const loginUser = async(req, res) =>{
         [Op.and]:[{nombre_usuario: nombre},{contrasena :contrasena}]
       }
     })
-    //console.log(login.contrasena)
     if(login !== null){
       const user = {id_usuario: login.id_usuario, nombre: login.nombre_usuario}
       console.log(user)
       const token = jwt.sign(user, 'secretKey', {expiresIn: '5m'})
       res.status(200).json({message:"usuario encontrado", "verification": "true", token})
     }else{
-      res.status(200).json({message:"usuario no encontrado", "verification": "false"})
+      if(error == ValidationError){
+        res.status(500).json({message:"error en la base de datos", error})
+      }else{
+        res.status(200).json({message:"usuario no encontrado", "verification": "false"})
+      }
     }
   }catch(error){
-    console.log(error)
-    res.status(500).json({"error": "error:", error})
+    if(error == ValidationError){
+      res.status(500).json({message:"error en la base de datos", error})
+    }else{
+      res.status(500).json({error})
+    }
   }
 }
-export { getAllUsers, getUserById, createUser, loginUser};
+const paginateUsers = async(req, res) =>{
+  try{
+    const {size, pags} = req.body
+    const pagUser = await User.findAll({
+      limit: size,
+      offset: size * pags
+    })
+    res.status(200).json({message: "Datos enviados", pagUser})
+  }catch(error){
+    if(error == ValidationError){
+      res.status(500).json({message:"error en la base de datos", error})
+    }else{
+      res.status(500).json({error})
+    }
+  }
+}
+export { getAllUsers, getUserById, createUser, loginUser, paginateUsers};

@@ -6,7 +6,11 @@ const getAllquotes = async(req, res) =>{
         const quote = await quotes.findAll()
         res.status(200).json({message: quote})
     }catch(error){
-        res.status(500).json({"error": error})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({"error": error})
+        }
     }
 }
 
@@ -23,7 +27,11 @@ const getquoteById = async(req, res) =>{
         if(quote !== null){
             res.status(200).json({message:"cotizacion encontrado", "verification": "true"})
         }else{
-            res.status(200).json({message:"cotizacion no encontrado", "verification": "false"})
+            if(error == ValidationError){
+                res.status(500).json({message:"error en la base de datos", error})
+            }else{
+                res.status(200).json({message:"cotizacion no encontrado", "verification": "false"})
+            }
         }
     }catch(error){
         console.log(error)
@@ -37,7 +45,11 @@ const createquote = async(req, res) =>{
         quote.save()
         res.status(200).json({message: quote})
     }catch(error){
-        res.status(500).json({"error": error})
+        if(error == ValidationError){
+            res.status(500).json({message:"error en la base de datos", error})
+        }else{
+            res.status(500).json({"message": "error encontrado", error})
+        }
     }
 }
 export {getAllquotes, getquoteById, createquote}

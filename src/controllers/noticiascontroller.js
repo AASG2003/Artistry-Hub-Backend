@@ -1,11 +1,10 @@
-const NoticiaCompleta = require('../models/NoticiaCompleta');
+import NoticiaCompleta from '../models/NoticiaCompleta.js'
 
 // Obtener noticias completas por cripto
-exports.getNoticiasCompletas = async (req, res) => {
-  const { resul } = req.query;
-
+const getNoticiasCompletas = async (req, res) => {
   try {
-    const noticias = await NoticiaCompleta.find({ cripto: resul });
+    const { resul } = req.query;
+    const noticias = await NoticiaCompleta.find({ cripto: resul }).toArray();
     if (noticias.length > 0) {
       res.json(noticias);
     } else {
@@ -16,3 +15,6 @@ exports.getNoticiasCompletas = async (req, res) => {
     res.status(500).json({ error: 'Error en el servidor' });
   }
 };
+
+
+export default getNoticiasCompletas
