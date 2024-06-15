@@ -70,7 +70,7 @@ const getCriptoCoinByName = async(req,res) =>{
 const createCriptoCoin = async(req, res) =>{
     try{
         const coin = await criptoCoins.create(req.body)
-        coin.save()
+        await coin.save()
         res.status(200).json({message:coin})
     }catch(error){
         if(error == ValidationError){

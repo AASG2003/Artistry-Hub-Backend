@@ -41,7 +41,7 @@ const getGroupChatByName = async(req, res) =>{
 const createGroupChat = async (req, res) =>{
     try{
         const createGroup = await groupChat.create(req.body)
-        createGroup.save()
+        await createGroup.save()
         res.status(200).json({message: createGroup})
     }catch(error){
         if(error == ValidationError){

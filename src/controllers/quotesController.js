@@ -42,7 +42,7 @@ const getquoteById = async(req, res) =>{
 const createquote = async(req, res) =>{
     try{
         const quote = await quotes.create(req.body);
-        quote.save()
+        await quote.save()
         res.status(200).json({message: quote})
     }catch(error){
         if(error == ValidationError){
