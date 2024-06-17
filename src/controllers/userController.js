@@ -1,7 +1,7 @@
 import { Op, ValidationError, where } from "sequelize";
 import { User } from "../models/usuarios.js";
 import jwt from "jsonwebtoken";
-import { transporter } from "../config/mailer.js";
+import { sendEmails } from "../services/mailer.js";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -102,22 +102,22 @@ const paginateUsers = async(req, res) =>{
 
 const forgotPassword = async(req, res) =>{
   try{
-    const {gmail} = req.body
+    const {origin, source, header, text} = req.body
     const finduser = await User.findOne({
       where:{
         email:{
-          [Op.eq] : gmail
+          [Op.eq] : source
         }
       }
     })
     if(finduser){
-      const info = await transporter.sendMail({
-        from: "Maizena Hot <sergioantonioqui@gmail.com",
-        to: gmail,
-        subject:"Olvide mi constraseña",
-        html:"<p>Hola, Se le ha enviado el link para poder reestablecer la constraseña<p><br><button><a href='http://localhost:3001/api/users/refreshPassword?new_password=cerditoh1234&old_password=cerditoh123'>Reestablecer constraseña</a></button>"
-      })
-      res.status(200).json({"message":"Envio Correcto", "send":"true"})
+      const result =  await sendEmails(origin, source, header, text)
+      if(result.status){
+        res.status(200).json({"message":"Envio Correcto", "send":"true"})
+      }else{
+        console.log(result)
+        res.status(500).json({ "message": 'Error al enviar el correo', "send": 'false', "error": result.error });
+      }
     }else{
       res.status(406).json({
         error: "No se encontro el gmail del usuario",
@@ -129,6 +129,7 @@ const forgotPassword = async(req, res) =>{
       res.status(400).json({"Error": error , "message": "Error en la base de datos"})
     }else{
       res.status(500).json({"error general": error})
+      console.log(error)
     }
   }
 }
