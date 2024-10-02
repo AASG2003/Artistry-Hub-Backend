@@ -1,6 +1,6 @@
 import app from './app.js'
-
-const port = 3001;
+import config from "./config/config.js";
+const port = config.port
 
 app.listen(port, ()=>{
   console.log("Ejecutando servidor en el puerto:" + port)

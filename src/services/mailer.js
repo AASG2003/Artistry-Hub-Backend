@@ -2,11 +2,11 @@ import nodemailer  from "nodemailer"
 import config from "../config/config.js"
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
+    host: config.smtp_host,
+    port: config.smtp_port,
     secure: true,
     auth: {
-        user:config.smtp_user,
+        user:config.smtp_from_address,
         pass:config.smtp_pass,
     }
 })
@@ -19,7 +19,7 @@ transporter.verify().then(() =>{
 export const sendEmails = async(origin, source, header, text) =>{
     try{
         const info = await transporter.sendMail({
-            from: `Maizena Hot <${origin}>`,
+            from: `Artistry Hub<${origin}>`,
             to: source,
             subject:header,
             html:text

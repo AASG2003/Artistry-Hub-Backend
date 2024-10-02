@@ -8,8 +8,12 @@ const config = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: process.env.PORT || 3000,
-  smtp_user: process.env.SMTP_USER,
+
+  //smtp enviroment
+  smtp_host: process.env.SMTP_HOST,
   smtp_pass: process.env.SMTP_PASS,
+  smtp_from_address: process.env.SMTP_FROM_ADDRESS,
+  smtp_port: process.env.SMTP_PORT
 };
 
 export default config;
